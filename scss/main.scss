@@ -1,13 +1,13 @@
 //Variables
 
-$playerOneColor: #030f63;
-$playerTwoColor: #d6040e;
-$playerThreeColor: #d86b04;
-$playerFourColor: #0eb7ae;
-$playerFiveColor: #104704;
-$playerSixColor: #c6c617;
+$playerOneColor: #A4FF82;
+$playerTwoColor: #D082FF;
+$playerThreeColor: #EFAB0A;
+$playerFourColor: #E73F3F;
+$playerFiveColor: #5599FF;
+$playerSixColor: #41FFF3;
 $defeatedColor: #444;
-$background-color: #9a8d4c;
+$background-color: #0000;
 $modalBackground: #917037;
 $titleColor: #d6040e;
 $mainFont: 'Alfa Slab One', sans-serif;
@@ -74,7 +74,7 @@ button {
     font-size: 1.2em;
     font-family: $mainFont;
     cursor: not-allowed;
-    fill: #fff;
+    fill: #ffffff;
 }
 
 //Strength Bar
