@@ -30,87 +30,136 @@ Click 'End Turn' to continue the game and pass control to the AI
 
 /* Data */
 
-const continents = [
+const dioceses = [
+    // {
+    // areas: ["britannia"],
+    // name: "britannia",
+    // bonus: 0
+    // },
     {
-    areas: ["indonesia", "new_guinea", "eastern_australia", "western_australia"],
-    name: "oceania",
-    bonus: 2
+        areas: ["lugdunensis", "belgica", "germania_inferior", "germania_superior"],
+        name: "galliarum",
+        bonus: 2
     },
     {
-    areas: ["brazil", "peru", "venezuela", "argentina"],
-    name: "South America",
-    bonus: 2
+        areas: ["aquitania", "narbonensis"],
+        name: "viennensis",
+        bonus: 1
     },
     {
-    areas: ["egypt", "north_africa", "east_africa", "congo", "south_africa", "madagascar"],
-    name: "africa",
-    bonus: 3
+        areas: ["tarraconensis", "lusitania", "baetica", "mauretania_tingitana"],
+        name: "hispaniarum",
+        bonus: 2
     },
     {
-    areas: ["iceland", "uk", "scandinavia", "northern_europe", "western_europe", "ukraine", "southern_europe"],
-    name: "europe",
-    bonus: 5
+        areas: ["mauretania_caesariensis", "africa_proconsularis", "western_us"],
+        name: "africae",
+        bonus: 1
     },
     {
-    areas: ["central_america", "eastern_us", "western_us", "quebec", "ontario", "alberta", "northwest_territory", "alaska", "greenland"],
-    name: "North America",
-    bonus: 5
+        areas: ["cyrenaica", "aegyptus", "arabia_petraea", "iudea", "syria", "mesopotamia", "assyria", "cilicia"],
+        name: "orientis",
+        bonus: 7
     },
     {
-    areas: ["middle_east", "afghanistan", "ural", "siberia", "irkutsk", "yakutsk", "kamchatka", "mongolia", "japan", "china", "siam", "india"],
-    name: "asia",
-    bonus: 7
-    }];
+        areas: ["bithynia_et_pontus", "cappadocia", "armenia"],
+        name: "pontica",
+        bonus: 2
+    },
+    {
+        areas: ["asia", "lycia_et_pamphylia", "galatia"],
+        name: "asiana",
+        bonus: 2
+    },
+    {
+        areas: ["moesia_inferior", "thracia"],
+        name: "thraciae",
+        bonus: 2
+    },
+    {
+        areas: ["dacia", "moesia_superior", "macedonia","epirus","achaia"],
+        name: "moesiarum",
+        bonus: 4
+    },
+    {
+        areas: ["noricum", "pannonia_superior", "pannonia_inferior","dalmatia"],
+        name: "pannoniarum",
+        bonus: 2
+    },
+    {
+        areas: ["raetia", "italia"],
+        name: "italia",
+        bonus: 1
+    }
 
+];
+
+
+// NOTE: need to edit. set owner to tetrarchy 
 const countries = [
-    {name: "indonesia", continent: "oceania", owner: "none", color:"white", "army": 0, neighbours: ["siam", "western_australia", "new_guinea"]},
-    {name: "new_guinea", continent: "oceania", owner: "none", color:"white", "army": 0, neighbours: ["indonesia", "eastern_australia", "western_australia"]},
-    {name: "eastern_australia", continent: "oceania", owner: "none", color:"white", "army": 0, neighbours: ["western_australia", "new_guinea"]},
-    {name: "western_australia", continent: "oceania", owner: "none", color:"white", "army": 0, neighbours: ["eastern_australia", "new_guinea", "indonesia"]},
-    {name: "ural", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["ukraine", "siberia", "afghanistan", "china"],},
-    {name: "siberia", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["ural", "mongolia", "yakutsk", "irkutsk", "china"]},
-    {name: "afghanistan", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["ukraine", "ural", "middle_east", "china", "india"]},
-    {name: "irkutsk", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["yakutsk", "siberia", "kamchatka", "mongolia"]},
-    {name: "yakutsk", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["irkutsk", "siberia", "kamchatka"]},
-    {name: "kamchatka", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["alaska", "yakutsk", "japan", "irkutsk", "mongolia"]},
-    {name: "middle_east", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["ukraine", "afghanistan", "india", "egypt", "east_africa", "southern_europe"]},
-    {name: "india", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["middle_east", "siam", "afghanistan", "china"]},
-    {name: "siam", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["indonesia", "india", "china"]},
-    {name: "china", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["ural", "siberia", "afghanistan", "mongolia", "siam", "india"]},
-    {name: "mongolia", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["irkutsk", "siberia", "kamchatka", "china", "japan"]},
-    {name: "japan", continent: "asia", owner: "none", color:"white", "army": 0, neighbours: ["kamchatka", "mongolia"]},
-    {name: "egypt", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["middle_east", "southern_europe", "north_africa", "east_africa"]},
-    {name: "north_africa", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["egypt", "southern_europe", "western_europe", "east_africa", "congo", "brazil"]},
-    {name: "east_africa", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["middle_east", "egypt", "north_africa", "congo", "madagascar", "south_africa"]},
-    {name: "congo", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["south_africa", "north_africa", "east_africa"]},
-    {name: "south_africa", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["congo", "madagascar", "east_africa"]},
-    {name: "madagascar", continent: "africa", owner: "none", color:"white", "army": 0, neighbours: ["south_africa", "east_africa"]},
-    {name: "brazil", continent: "South America", owner: "none", color:"white", "army": 0, neighbours: ["peru", "argentina", "north_africa", "venezuela"]},
-    {name: "peru", continent: "South America", owner: "none", color:"white", "army": 0, neighbours: ["brazil", "argentina", "venezuela"]},
-    {name: "argentina", continent: "South America", owner: "none", color:"white", "army": 0, neighbours: ["brazil", "peru"]},
-    {name: "venezuela", continent: "South America", owner: "none", color:"white", "army": 0, neighbours: ["brazil", "peru", "central_america"]},
-    {name: "iceland", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "uk", "scandinavia"]},
-    {name: "scandinavia", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["iceland", "uk", "ukraine", "northern_europe"]},
-    {name: "northern_europe", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["ukraine", "uk", "scandinavia", "southern_europe", "western_europe"]},
-    {name: "western_europe", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["north_africa", "uk", "northern_europe", "southern_europe"]},
-    {name: "southern_europe", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["north_africa", "egypt", "northern_europe", "western_europe", "middle_east", "ukraine"]},
-    {name: "uk", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["western_europe", "iceland", "northern_europe", "scandinavia"]},
-    {name: "ukraine", continent: "europe", owner: "none", color:"white", "army": 0, neighbours: ["scandinavia", "ural", "northern_europe", "southern_europe", "afghanistan", "middle_east"]},
-    {name: "greenland", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["iceland", "quebec", "ontario", "northwest_territory"]},
-    {name: "central_america", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["venezuela", "eastern_us", "western_us"]},
-    {name: "eastern_us", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["central_america", "quebec", "ontario", "western_us"]},
-    {name: "western_us", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["eastern_us", "central_america", "ontario", "alberta"]},
-    {name: "alaska", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["kamchatka", "alberta", "northwest_territory"]},
-    {name: "alberta", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["alaska", "western_us", "ontario", "northwest_territory"]},
-    {name: "ontario", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "quebec", "alberta", "western_us", "eastern_us", "northwest_territory"]},
-    {name: "quebec", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "eastern_us", "ontario"]},
-    {name: "northwest_territory", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "alaska", "alberta", "ontario"]}
-                  ];
+    {name: "iudea", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["arabia_petraea", "syria"]},
+    {name: "armenia", continent: "pontica", owner: "none", color:"white", "army": 0, neighbours: ["mesopotamia", "assyria", "cappadocia"]},
+    {name: "assyria", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["mesopotamia", "armenia"]},
+    {name: "mesopotamia", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["syria", "cappadocia", "armenia", "assyria"]},
+    
+    {name: "syria", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["cilicia", "cappadocia", "armenia", "mesopotamia", "iudea", "arabia petraea"],},
+    {name: "arabia_petraea", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["aegyptus", "iudea", "syria"]},
+    
+    {name: "aegyptus", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["cyrenaica", "arabia_petraea"]},
+    {name: "cyrenaica", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["africa_proconsularis", "aegyptus"]},
+    
+    {name: "cappadocia", continent: "pontica", owner: "none", color:"white", "army": 0, neighbours: ["bithynia_et_pontus", "galatia", "cilicia", "syria","mesopotamia","armenia"]},
+    {name: "cilicia", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["lycia_et_pamphylia", "galatia", "cappadocia", "syria"]},
+    {name: "galatia", continent: "asiana", owner: "none", color:"white", "army": 0, neighbours: ["lycia_et_pamphylia", "asia", "bithynia_et_pontus", "cappadocia", "cilicia"]},
+    {name: "lycia_et_pamphylia", continent: "asiana", owner: "none", color:"white", "army": 0, neighbours: ["asia", "galatia", "cilicia"]},
+    {name: "asia", continent: "asiana", owner: "none", color:"white", "army": 0, neighbours: ["achaia", "macedonia", "thracia","bithynia_et_pontus","galatia","lycia_et_pamphylia"]},
+    
+    {name: "africa_proconsularis", continent: "africae", owner: "none", color:"white", "army": 0, neighbours: ["mauretania_caesariensis", "italia","aegyptus"]},
+    {name: "mauretania_caesariensis", continent: "africae", owner: "none", color:"white", "army": 0, neighbours: ["mauretania_tingitana", "africa_proconsularis"]},
+    
+    {name: "achaia", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["epirus", "macedonia","asia"]},
+    {name: "moesia_superior", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["dalmatia", "pannonia_inferior", "dacia", "moesia_inferior","thracia","macedonia"]},
+    {name: "pannonia_inferior", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["dalmatia", "pannonia_superior", "dacia", "moesia_superior"]},
+    
+
+    // to-do
+    {name: "macedonia", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["epirus", "dalmatia", "moesia_superior", "thracia", "asia", "achaia"]},
+    {name: "epirus", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["italia", "macedonia", "achaia"]},
+    {name: "bithynia_et_pontus", continent: "pontica", owner: "none", color:"white", "army": 0, neighbours: ["thracia", "asia", "galatia", "cappadocia"]},
+    {name: "thracia", continent: "thraciae", owner: "none", color:"white", "army": 0, neighbours: ["moesia_superior", "dacia", "moesia_inferior","bithynia_et_pontus","asia","macedonia"]},
+    {name: "dacia", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["pannonia_inferior", "moesia_superior", "moesia_inferior"]},
+    {name: "moesia_inferior", continent: "thraciae", owner: "none", color:"white", "army": 0, neighbours: ["dacia", "moesia_superior", "thracia"]},
+    {name: "pannonia_superior", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["noricum", "italia","dalmatia","pannonia_inferior"]},
+    
+    {name: "dalmatia", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["italia", "pannonia_superior", "pannonia_inferior", "moesia_superior", "macedonia"]},
+    {name: "noricum", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["raetia", "italia", "pannonia_superior"]},
+    
+    {name: "ratia", continent: "italiae", owner: "none", color:"white", "army": 0, neighbours: ["germania_superior", "narbonensis", "italia", "noricum"]},
+    {name: "italia", continent: "italiae", owner: "none", color:"white", "army": 0, neighbours: ["narbonensis", "raetia", "noricum", "pannonia_superior", "dalmatia", "africa_proconsularis", "epirus"]},
+    
+    {name: "germania_superior", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "belgica", "lugdunensis", "narbonensis", "italia", "noricum"]},
+    {name: "germania_inferior", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["belgica", "germania_superior"]},
+    {name: "belgica", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "germania_superior", "lugdunensis"]},
+    {name: "lugdunensis", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["aquitania", "narbonensis", "germania_superior", "belgica"]},
+    
+    {name: "narbonensis", continent: "viennensis", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "aquitania", "lugdunensis", "germania_superior", "raetia", "italia"]},
+    {name: "aquitania", continent: "viennensis", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "narbonensis", "lugdunensis"]},
+    
+    {name: "tarraconensis", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["aquitania", "narbonensis", "lusitania", "baetica"]},
+    {name: "lusitania", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "baetica"]},
+    {name: "baetica", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["lusitania", "tarraconensis", "mauretania_tingitana"]},
+    // {name: "corsica", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["alaska", "western_us", "ontario", "northwest_territory"]},
+    // {name: "sardinia", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "quebec", "alberta", "western_us", "eastern_us", "northwest_territory"]},
+    // {name: "sicilia", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "eastern_us", "ontario"]},
+    {name: "britannia", continent: "britanniarum", owner: "none", color:"white", "army": 0, neighbours: ["lugdunensis", "belgica"]}
+    // {name: "creta", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "quebec", "alberta", "western_us", "eastern_us", "northwest_territory"]},
+    // {name: "cyprus", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "quebec", "alberta", "western_us", "eastern_us", "northwest_territory"]},
+];
 
 const players = [
     {
-     "name": "Napoleon",
-     "country": "France",
+     "name": "Constantine",
+     "country": "Britannia",
      "color": "#030f63",
      "army": 10,
      "reserve": 10,
@@ -119,8 +168,8 @@ const players = [
      "alive": true
     },
     {
-     "name": "Elizabeth I",
-     "country": "England",
+     "name": "Severus",
+     "country": "Italia",
      "color": "#d6040e",
      "army": 20,
      "reserve": 20,
@@ -129,8 +178,8 @@ const players = [
      "alive": true
     },
     {
-     "name": "Washington",
-     "country": "USA",
+     "name": "Galerius",
+     "country": "Asia",
      "color": "#d86b04",
      "army": 20,
      "reserve": 20,
@@ -138,17 +187,18 @@ const players = [
      "bonus": 2,
      "alive": true
     },
-    {"name": "Genghis Khan",
-     "country": "Mongolia",
+    {"name": "Maximinus Daia",
+     "country": "Orientis",
      "color": "#0eb7ae",
      "army": 20,
      "reserve": 20,
      "areas": [],
      "bonus": 2,
-     "alive": true
+     "alive": true 
     },
-    {"name": "Catherine",
-     "country": "Russia",
+    // Usurpers
+    {"name": "Allectus",
+     "country": "Gallia",
      "color": "#104704",
      "army": 20,
      "reserve": 20,
@@ -156,8 +206,8 @@ const players = [
      "bonus": 2,
      "alive": true
     },
-    {"name": "Isabella",
-     "country": "Spain",
+    {"name": "Domitianus",
+     "country": "Aegyptus",
      "color": "#c6c617",
      "army": 20,
      "reserve": 20,
@@ -383,7 +433,7 @@ Gamestate.unitBonus = function(player, i){
 
 Gamestate.continentBonus = function(player){
     let bonus = 0;
-    continents.forEach( continent => {
+    dioceses.forEach( continent => {
         if(player.areas.containsArray(continent.areas)){
             bonus += continent.bonus;
         }
@@ -421,7 +471,7 @@ Gamestate.addArmy = function(e){
             if(this.player.reserve === 0){
                 this.stage = "Battle";
                 turnInfo.textContent = this.stage;
-                turnInfoMessage.textContent = "Choose a country to attack from then a target";
+                turnInfoMessage.textContent = "Choose a province to attack from then a target";
             }
         }
     })   
@@ -505,7 +555,7 @@ Gamestate.aiMove = function(){
                                 this.countries.forEach(c => {
                                     if(c.name === neighbour && c.owner !== this.players[i].name){
                                         let continent;
-                                        continents.forEach(x => {
+                                        dioceses.forEach(x => {
                                             if(x.name === country.continent){
                                                 continent = x;                                               
                                             }
@@ -565,7 +615,7 @@ Gamestate.aiAttack = function(country, i){
     let target = [possibleTargets[0], 0];
     let continent;
     possibleTargets.forEach(poss => {
-        continents.forEach(x => {
+        dioceses.forEach(x => {
             if(x.name === poss.continent){
                 continent = x;
             }
@@ -665,7 +715,7 @@ Gamestate.battle = function(country, opponent, player, i){
     
     //Display Bonus modal if player controls continent
     if(this.player.alive){
-        continents.forEach(continent => {
+        dioceses.forEach(continent => {
             if(player.areas.containsArray(continent.areas)){   
                 let matchedCountry = continent.areas.some(a => {
                    return a === opponent.name;
