@@ -1,4 +1,4 @@
-﻿/*===============================
+/*===============================
               RISK             
 ===============================*/
 
@@ -31,20 +31,20 @@ Click 'End Turn' to continue the game and pass control to the AI
 /* Data */
 
 const continents = [
-    // {
-    // areas: ["britannia"],
-    // name: "britannia",
-    // bonus: 0
-    // },
+    {
+        areas: ["britannia"],
+        name: "britanniarum",
+        bonus: 1
+    },
     {
         areas: ["lugdunensis", "belgica", "germania_inferior", "germania_superior"],
         name: "galliarum",
-        bonus: 2
+        bonus: 3
     },
     {
         areas: ["aquitania", "narbonensis"],
         name: "viennensis",
-        bonus: 1
+        bonus: 2
     },
     {
         areas: ["tarraconensis", "lusitania", "baetica", "mauretania_tingitana"],
@@ -88,7 +88,7 @@ const continents = [
     },
     {
         areas: ["raetia", "italia"],
-        name: "italia",
+        name: "italiae",
         bonus: 1
     }
 
@@ -102,8 +102,8 @@ const countries = [
     {name: "assyria", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["mesopotamia", "armenia"]},
     {name: "mesopotamia", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["syria", "cappadocia", "armenia", "assyria"]},
     
-    {name: "syria", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["cilicia", "cappadocia", "armenia", "mesopotamia", "iudea", "arabia petraea"],},
-    {name: "arabia_petraea", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["aegyptus", "iudea", "syria"]},
+    {name: "syria", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["cilicia", "cappadocia", "armenia", "mesopotamia", "iudaea", "arabia_petraea"],},
+    {name: "arabia_petraea", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["aegyptus", "iudaea", "syria"]},
     
     {name: "aegyptus", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["cyrenaica", "arabia_petraea"]},
     {name: "cyrenaica", continent: "orientis", owner: "none", color:"white", "army": 0, neighbours: ["africa_proconsularis", "aegyptus"]},
@@ -114,7 +114,7 @@ const countries = [
     {name: "lycia_et_pamphylia", continent: "asiana", owner: "none", color:"white", "army": 0, neighbours: ["asia", "galatia", "cilicia"]},
     {name: "asia", continent: "asiana", owner: "none", color:"white", "army": 0, neighbours: ["achaia", "macedonia", "thracia","bithynia_et_pontus","galatia","lycia_et_pamphylia"]},
     
-    {name: "africa_proconsularis", continent: "africae", owner: "none", color:"white", "army": 0, neighbours: ["mauretania_caesariensis", "italia","aegyptus"]},
+    {name: "africa_proconsularis", continent: "africae", owner: "none", color:"white", "army": 0, neighbours: ["mauretania_caesariensis", "italia","cyrenaica"]},
     {name: "mauretania_caesariensis", continent: "africae", owner: "none", color:"white", "army": 0, neighbours: ["mauretania_tingitana", "africa_proconsularis"]},
     
     {name: "achaia", continent: "moesiarum", owner: "none", color:"white", "army": 0, neighbours: ["epirus", "macedonia","asia"]},
@@ -134,13 +134,13 @@ const countries = [
     {name: "dalmatia", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["italia", "pannonia_superior", "pannonia_inferior", "moesia_superior", "macedonia"]},
     {name: "noricum", continent: "pannoniarum", owner: "none", color:"white", "army": 0, neighbours: ["raetia", "italia", "pannonia_superior"]},
     
-    {name: "ratia", continent: "italiae", owner: "none", color:"white", "army": 0, neighbours: ["germania_superior", "narbonensis", "italia", "noricum"]},
+    {name: "raetia", continent: "italiae", owner: "none", color:"white", "army": 0, neighbours: ["germania_superior", "narbonensis", "italia", "noricum"]},
     {name: "italia", continent: "italiae", owner: "none", color:"white", "army": 0, neighbours: ["narbonensis", "raetia", "noricum", "pannonia_superior", "dalmatia", "africa_proconsularis", "epirus"]},
     
-    {name: "germania_superior", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "belgica", "lugdunensis", "narbonensis", "italia", "noricum"]},
+    {name: "germania_superior", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "belgica", "lugdunensis", "narbonensis", "italia", "noricum","raetia"]},
     {name: "germania_inferior", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["belgica", "germania_superior"]},
-    {name: "belgica", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "germania_superior", "lugdunensis"]},
-    {name: "lugdunensis", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["aquitania", "narbonensis", "germania_superior", "belgica"]},
+    {name: "belgica", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["germania_inferior", "germania_superior", "lugdunensis","britannia"]},
+    {name: "lugdunensis", continent: "galliarum", owner: "none", color:"white", "army": 0, neighbours: ["aquitania", "narbonensis", "germania_superior", "belgica","britannia"]},
     
     {name: "narbonensis", continent: "viennensis", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "aquitania", "lugdunensis", "germania_superior", "raetia", "italia"]},
     {name: "aquitania", continent: "viennensis", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "narbonensis", "lugdunensis"]},
@@ -148,7 +148,7 @@ const countries = [
     {name: "tarraconensis", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["aquitania", "narbonensis", "lusitania", "baetica"]},
     {name: "lusitania", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["tarraconensis", "baetica"]},
     {name: "baetica", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["lusitania", "tarraconensis", "mauretania_tingitana"]},
-    {name: "mauretania_tingitana", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["baetica"]},
+    {name: "mauretania_tingitana", continent: "hispaniarum", owner: "none", color:"white", "army": 0, neighbours: ["baetica","mauretania_caesariensis"]},
 
     // {name: "corsica", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["alaska", "western_us", "ontario", "northwest_territory"]},
     // {name: "sardinia", continent: "North America", owner: "none", color:"white", "army": 0, neighbours: ["greenland", "quebec", "alberta", "western_us", "eastern_us", "northwest_territory"]},
@@ -161,7 +161,7 @@ const countries = [
 const players = [
     {
      "name": "Constantine",
-     "country": "Britannia",
+     "country": "I",
      "color": "#030f63",
      "army": 10,
      "reserve": 10,
@@ -171,7 +171,7 @@ const players = [
     },
     {
      "name": "Severus",
-     "country": "Italia",
+     "country": "II",
      "color": "#d6040e",
      "army": 20,
      "reserve": 20,
@@ -181,7 +181,7 @@ const players = [
     },
     {
      "name": "Galerius",
-     "country": "Asia",
+     "country": "III",
      "color": "#d86b04",
      "army": 20,
      "reserve": 20,
@@ -190,7 +190,7 @@ const players = [
      "alive": true
     },
     {"name": "Maximinus Daia",
-     "country": "Orientis",
+     "country": "IV",
      "color": "#0eb7ae",
      "army": 20,
      "reserve": 20,
@@ -200,7 +200,7 @@ const players = [
     },
     // Usurpers
     {"name": "Allectus",
-     "country": "Gallia",
+     "country": "Usurper",
      "color": "#104704",
      "army": 20,
      "reserve": 20,
@@ -209,7 +209,7 @@ const players = [
      "alive": true
     },
     {"name": "Domitianus",
-     "country": "Aegyptus",
+     "country": "Usurper",
      "color": "#c6c617",
      "army": 20,
      "reserve": 20,
@@ -737,7 +737,7 @@ Gamestate.battle = function(country, opponent, player, i){
     }
     
     //Win Condition
-    if(player.areas.length === 42){
+    if(player.areas.length === 40){
         this.gameOver = true;
         this.win(player);
     }    
