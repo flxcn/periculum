@@ -264,7 +264,7 @@ button:hover {
   position: relative;
   margin: 0 auto;
   font-family: "Alfa Slab One", sans-serif;
-  font-size: 2em;
+  font-size: 1em;
   z-index: 6;
   border: 4px solid #d6040e;
   border-radius: 5px;
